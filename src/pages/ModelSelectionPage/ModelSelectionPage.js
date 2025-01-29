@@ -4,6 +4,8 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { Button, Grid, Box, TextField } from "@mui/material";
+import Navbar from "../../components/Navbar/Navbar"; 
+import styles from "./ModelSelectionPage.module.css";
 
 const ModelViewer = ({ modelPath, position, color, texture }) => {
   const { scene } = useGLTF(modelPath);
@@ -105,6 +107,8 @@ function ModelSelectionPage() {
   };
 
   return (
+    <div>
+       <Navbar /> 
     <Grid container spacing={2} sx={{ height: "100vh", backgroundColor: "#f5f5f5" }}>
   
       <Grid item xs={2} sx={{ backgroundColor: "#e0e0e0", padding: 2 }}>
@@ -189,6 +193,7 @@ function ModelSelectionPage() {
         </Canvas>
       </Grid>
     </Grid>
+    </div>
   );
 }
 

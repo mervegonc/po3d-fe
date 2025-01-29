@@ -1,0 +1,9 @@
+@font-face {
+    font-family: "Saira";
+    src: url("./assets/fonts/Saira-VariableFont_wdth,wght.ttf") format("truetype");
+  }
+  
+  body {
+    font-family: "Saira", sans-serif;
+  }
+  
