@@ -1,4 +1,4 @@
-
+/*
 import React, { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
@@ -193,3 +193,4 @@ function ModelSelectionPage() {
 }
 
 export default ModelSelectionPage;
+*/

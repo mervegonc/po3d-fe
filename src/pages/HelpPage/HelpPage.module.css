@@ -1,0 +1,52 @@
+.helpC {
+ background-color: #f8f1e5;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .description {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .faqSection, .supportSection {
+    text-align: left;
+    margin-top: 20px;
+  }
+  
+  .faqTitle, .supportTitle {
+    font-size: 1.5rem;
+    color: #222;
+    margin-bottom: 10px;
+  }
+  
+  .faqItem {
+    background: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  .supportSection ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .supportSection li {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 5px;
+  }
+  

@@ -20,8 +20,13 @@ const ProductPage = () => {
         {products.map(product => (
           <div key={product.id} className={styles.productCard}>
             <img src={product.image} alt={product.name} className={styles.productImage} />
-            <h3 className={styles.productName}>{product.name}</h3>
-            <p className={styles.productPrice}>{product.price}</p>
+            
+            {/* Ürün ismi ve fiyatını yan yana hizala */}
+            <div className={styles.productInfo}>
+              <h3 className={styles.productName}>{product.name}</h3>
+              <p className={styles.productPrice}>{product.price}</p>
+            </div>
+
           </div>
         ))}
       </div>

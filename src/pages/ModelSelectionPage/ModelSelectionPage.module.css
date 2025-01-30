@@ -1,60 +1,86 @@
-/* Ana Container */
 .container {
-    position: relative;
-    margin-top: 80px; /* Navbar ile çakışmaması için */
-  }
-  
-  /* Ana Grid */
-  .mainGrid {
-    height: 100vh;
-    background-color: #f5f5f5;
-  }
-  
-  /* Sol Panel (Sidebar) */
-  .sidebar {
-    background-color: #8B5A2B; /* Kahverengi arka plan */
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 20px; /* Navbar ile çakışmasını engeller */
-  }
-  
-  /* Kategori Butonları */
-  .categoryBox {
-    margin-bottom: 10px;
-  }
-  
-  .button {
-    background-color: #5D4037; /* Kahverengi buton */
-    color: white;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
-  
-  .button:hover {
-    background-color: #4E342E; /* Daha koyu kahverengi */
-  }
-  
-  .activeButton {
-    background-color: #6A0DAD !important; /* Seçili buton mor */
-  }
-  
-  /* Renk Seçici Alan */
-  .colorPickerBox {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #FFF8E1; /* Açık krem renk */
-    border-radius: 8px;
-  }
-  
-  .colorPicker {
-    width: 100%;
-    padding: 5px;
-  }
-  
-  /* Model Alanı */
-  .modelContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
+  max-width: 1600px;
+  margin: auto;
+ /* background-color: #c55858;*/
+
+}
+
+.layout {
+  display: flex; /* Yan yana hizalama */
+  width: 100%;
+  height: calc(100vh - 60px); /* Navbar yüksekliği kadar çıkart */
+}
+
+.sidebar {
+  width: 20%; /* Sidebar genişliği */
+  min-width: 250px; /* Minimum genişlik */
+  background-color:#f8f1e5;
+  padding: 20px;
+  overflow-y: auto; /* Sidebar uzun olursa kaydırılabilir */
+}
+
+.gridContainer {
+  flex-grow: 1; /* Geri kalan alanı kaplasın */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color:  #f8f1e5;;
+}
+
+
+.categoryBox {
+  margin-bottom: 16px;
+}
+
+
+
+.modelList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 sütun */
+  gap: 10px; /* Butonlar arasına boşluk ekler */
+  margin-top: 10px;
+}
+
+.modelButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3e2712 !important;
+  color: white !important;
+  padding: 12px 15px;
+ 
+  border-radius: 5px;
+  text-align: center;
+  width: 100%; /* Butonların eşit genişlikte olmasını sağlar */
+}
+
+
+
+
+
+.categoryButton {/*bu complete ve handles başlıkları için*/
+  background-color:  #3e2712 !important; /* Mor renk */
+  color: white !important;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+
+
+
+.colorPickerBox {
+  margin-top: 32px;
+}
+
+.patternBox {
+  margin-top: 32px;
+}
+
+
+
+.canvasContainer {
+  height: 100%;
+}
+

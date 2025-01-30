@@ -1,0 +1,62 @@
+.AboutC {
+  background-color: #f8f1e5;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  text-align: center;
+  padding: 20px;
+  position: relative; /* Yazıları üstüne oturtmak için */
+}
+
+/* Resim Konteyneri */
+.imageContainer {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* Arkaplan Resmi */
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  display: block;
+}
+
+/* Yazıların Üstte Görünmesi İçin */
+.overlay {
+  position: absolute;
+  top: 20%; /* Ortalamak için */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  background: rgba(75, 38, 3, 0.227); /* Yarı saydam arkaplan */
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+}
+
+/* Başlık */
+.title {
+  font-size: 2.5rem;
+  color: #ffcc80; /* Turuncu tonu */
+  margin-bottom: 10px;
+}
+
+/* Açıklama */
+.description {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-top: 20px;
+}
+
+/* Yazı Stilleri */
+.text {
+  font-size: 1rem;
+  color: #fff;
+  line-height: 1.6;
+}
