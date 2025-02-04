@@ -25,5 +25,6 @@ yarn-error.log*
 
 
 src/assets/*
-/public/thumbnails/*
-/public/models/*
+/public/models/
+/public/thumbnails/
+
