@@ -1,9 +1,16 @@
+
+
+
+
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./Navbar.module.css";
-import logo from "../../assets/images/logo.png"; // Logo için uygun bir görsel koy
+import logo from "../../assets/images/logo.png";
 
 const Navbar = () => {
+  const token = localStorage.getItem("token"); // Kullanıcı oturumu kontrolü
+  const userId = localStorage.getItem("userId"); // Kullanıcının ID'sini al
+
   return (
     <nav className={styles.navbar}>
       {/* Logo */}
@@ -21,10 +28,20 @@ const Navbar = () => {
         <li><Link to="/about">About Us</Link></li>
       </ul>
 
-      {/* Arama ve Login Butonu */}
+      {/* Arama ve Dinamik Giriş / Profil Butonları */}
       <div className={styles.rightMenu}>
         <input type="text" placeholder="Search..." className={styles.searchBar} />
-        <Link to="/login" className={styles.loginButton}>Login</Link>
+
+        {/* Kullanıcı giriş yaptıysa sadece "Profile" butonu göster */}
+       {token ? (
+  <Link to={`/profile/${userId}`} className={styles.loginButton}>Profile</Link>
+) : (
+  <Link to="/login" className={styles.loginButton}>Login</Link>
+)}
+
+<Link to="/cart" className={styles.loginButton}>Sepetim</Link>
+
+
       </div>
     </nav>
   );

@@ -1,60 +1,72 @@
 import React, { useState } from "react";
-import axios from "axios";
+import AxiosInstance from "../../axios/AxiosInstance"; // Güncellenmiş AxiosInstance
 import { TextField, Button, Typography, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import styles from "./AuthPage.module.css";
 import Navbar from "../../components/Navbar/Navbar";
 
 const AuthPage = () => {
-  const [page, setPage] = useState("signin"); // "signin", "signup", "forgotpassword"
+  const [page, setPage] = useState("signin"); // "signin" veya "signup"
   const [formData, setFormData] = useState({
-    name: "",
-    usernameOrEmail: "",
-    email: "",
-    password: "",
-    passwordReminder: "",
+    username: "", // Kullanıcı adı (signup için gerekli)
+    email: "", // Email (signup ve signin için gerekli)
+    password: "", // Şifre
   });
 
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
-  // Input Değerlerini Güncelle
+  // Input değişimini yönet
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Form Gönderme İşlemi
+  // Form gönderme işlemi
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccessMessage("");
 
     try {
-      let response;
       if (page === "signin") {
-        response = await axios.post("http://localhost:8080/api/auth/signin", {
-          usernameOrEmail: formData.usernameOrEmail,
+        // Kullanıcı giriş işlemi
+        const response = await AxiosInstance.post("/auth/signin", {
+          usernameOrEmail: formData.email, // Giriş için email veya username kullanılabilir
           password: formData.password,
         });
-        localStorage.setItem("token", response.data.accessToken);
-        localStorage.setItem("userId", response.data.userId);
-        navigate(`/user/${response.data.userId}`);
-      } else if (page === "signup") {
-        await axios.post("http://localhost:8080/api/auth/signup", formData);
-        setSuccessMessage("Başarıyla kayıt oldunuz! Giriş sayfasına yönlendiriliyorsunuz...");
-        setTimeout(() => setPage("signin"), 3000);
-      } else if (page === "forgotpassword") {
-        await axios.post("http://localhost:8080/api/auth/forgotpassword", {
-          usernameOrEmail: formData.usernameOrEmail,
-          passwordReminder: formData.passwordReminder,
+
+        if (response.status === 200 && response.data.token) {
+          // Token ve userId'yi localStorage'a kaydet
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("userId", response.data.userId);
+
+          // Kullanıcıyı profiline yönlendir
+          navigate(`/profile/${response.data.userId}`);
+        } else {
+          setError("Yanlış kullanıcı adı veya şifre.");
+        }
+      } else {
+        // Kullanıcı kayıt işlemi
+        const response = await AxiosInstance.post("/auth/signup", {
+          username: formData.username,
+          email: formData.email,
           password: formData.password,
         });
-        setSuccessMessage("Şifreniz başarıyla değiştirildi! Giriş yapabilirsiniz.");
-        setTimeout(() => setPage("signin"), 3000);
+
+        if (response.status === 201) {
+          setSuccessMessage("Kayıt başarılı! Şimdi giriş yapabilirsiniz.");
+          setPage("signin"); // Kayıt sonrası giriş sayfasına yönlendir
+        }
       }
     } catch (err) {
-      setError("Bir hata oluştu, bilgilerinizi kontrol edin!");
+      if (err.response && err.response.status === 401) {
+        setError("Yetkisiz erişim! Kullanıcı adı veya şifre hatalı.");
+      } else if (err.response && err.response.status === 409) {
+        setError("Bu kullanıcı adı zaten kullanılıyor.");
+      } else {
+        setError("Sunucu hatası. Lütfen tekrar deneyin.");
+      }
     }
   };
 
@@ -64,16 +76,16 @@ const AuthPage = () => {
       <div className={styles.authContainer}>
         <Paper elevation={5} className={styles.authPaper}>
           <Typography className={styles.authTitle}>
-            {page === "signup" ? "Kayıt Ol" : page === "forgotpassword" ? "Şifreyi Sıfırla" : "Giriş Yap"}
+            {page === "signup" ? "Kayıt Ol" : "Giriş Yap"}
           </Typography>
 
           <form onSubmit={handleSubmit} className={styles.authForm}>
             {page === "signup" && (
               <TextField
                 fullWidth
-                label="Ad Soyad"
-                name="name"
-                value={formData.name}
+                label="Kullanıcı Adı"
+                name="username"
+                value={formData.username}
                 onChange={handleChange}
                 className={styles.inputField}
                 required
@@ -82,44 +94,20 @@ const AuthPage = () => {
 
             <TextField
               fullWidth
-              label="E-posta veya Kullanıcı Adı"
-              name="usernameOrEmail"
-              value={formData.usernameOrEmail}
+              label="E-posta"
+              name="email"
+              type="email"
+              value={formData.email}
               onChange={handleChange}
               className={styles.inputField}
               required
             />
 
-            {page === "signup" && (
-              <TextField
-                fullWidth
-                label="E-posta"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                className={styles.inputField}
-                required
-              />
-            )}
-
-            {page === "forgotpassword" && (
-              <TextField
-                fullWidth
-                label="Hatırlatma Kelimesi"
-                name="passwordReminder"
-                value={formData.passwordReminder}
-                onChange={handleChange}
-                className={styles.inputField}
-                required
-              />
-            )}
-
             <TextField
               fullWidth
               label="Şifre"
               name="password"
-              type="password"
+              type="text"
               value={formData.password}
               onChange={handleChange}
               className={styles.inputField}
@@ -127,31 +115,22 @@ const AuthPage = () => {
             />
 
             <Button type="submit" variant="contained" className={styles.submitButton} fullWidth>
-              {page === "signup" ? "Kayıt Ol" : page === "forgotpassword" ? "Şifreyi Sıfırla" : "Giriş Yap"}
+              {page === "signup" ? "Kayıt Ol" : "Giriş Yap"}
             </Button>
 
             {error && <Typography className={styles.errorMessage}>{error}</Typography>}
             {successMessage && <Typography className={styles.successMessage}>{successMessage}</Typography>}
 
             <div className={styles.authSwitchContainer}>
-              {page !== "forgotpassword" && (
-                <Typography>
-                  {page === "signup" ? "Zaten bir hesabın var mı?" : "Hesabın yok mu?"}{" "}
-                  <Button className={styles.authSwitchButton} onClick={() => setPage(page === "signup" ? "signin" : "signup")}>
-                    {page === "signup" ? "Giriş Yap" : "Ücretsiz Kayıt Ol"}
-                  </Button>
-                </Typography>
-              )}
-
-              {page !== "forgotpassword" ? (
-                <Button variant="text" className={styles.forgotPasswordButton} fullWidth onClick={() => setPage("forgotpassword")}>
-                  Şifremi Unuttum
+              <Typography>
+                {page === "signup" ? "Zaten bir hesabın var mı?" : "Hesabın yok mu?"}{" "}
+                <Button
+                  className={styles.authSwitchButton}
+                  onClick={() => setPage(page === "signup" ? "signin" : "signup")}
+                >
+                  {page === "signup" ? "Giriş Yap" : "Ücretsiz Kayıt Ol"}
                 </Button>
-              ) : (
-                <Button variant="text" className={styles.backButton} fullWidth onClick={() => setPage("signin")}>
-                  Giriş Yap
-                </Button>
-              )}
+              </Typography>
             </div>
           </form>
         </Paper>

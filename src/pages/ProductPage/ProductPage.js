@@ -1,34 +1,88 @@
-import React from "react";
-import Navbar from "../../components/Navbar/Navbar";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AxiosInstance from "../../axios/AxiosInstance";
 import styles from "./ProductPage.module.css";
-
-const products = [
-  { id: 1, name: "Yeşil Kupa", price: "₺250", image: require("../../assets/products/1.jpg") },
-  { id: 2, name: "Krem ve Siyah Kupa", price: "₺280", image: require("../../assets/products/2.jpg") },
-  { id: 3, name: "Sarı Kupa", price: "₺230", image: require("../../assets/products/3.jpg") },
-  { id: 4, name: "Pembe Çaydanlık", price: "₺450", image: require("../../assets/products/4.jpg") },
-  { id: 5, name: "Bej ve Yeşil Kupa", price: "₺260", image: require("../../assets/products/6.jpg") },
-  { id: 6, name: "Yeşil Saplı Kupa", price: "₺275", image: require("../../assets/products/7.jpg") }
-];
+import Navbar from "../../components/Navbar/Navbar";
+import EditIcon from "@mui/icons-material/Edit";
 
 const ProductPage = () => {
-  return (
-    <div className={styles.container}>
-      <Navbar />
-      
-      <div className={styles.productGrid}>
-        {products.map(product => (
-          <div key={product.id} className={styles.productCard}>
-            <img src={product.image} alt={product.name} className={styles.productImage} />
-            
-            {/* Ürün ismi ve fiyatını yan yana hizala */}
-            <div className={styles.productInfo}>
-              <h3 className={styles.productName}>{product.name}</h3>
-              <p className={styles.productPrice}>{product.price}</p>
-            </div>
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate();
 
-          </div>
-        ))}
+  const backendURL = "http://localhost:8080/api/products/image/";
+
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+    if (role === "ROLE_ADMIN") {
+      setIsAdmin(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await AxiosInstance.get("/products");
+        const productsWithImages = response.data.map((product) => ({
+          ...product,
+          imageUrl:
+            product.images.length > 0
+              ? `${backendURL}${product.images[0].split("/").pop()}`
+              : "https://via.placeholder.com/150",
+        }));
+        setProducts(productsWithImages);
+      } catch (err) {
+        console.error("Ürünleri çekerken hata oluştu:", err);
+        setError("Ürünleri yüklerken bir hata oluştu.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const handleEditRedirect = (productId) => {
+    if (isAdmin) {
+      navigate(`/edit-product/${productId}`);
+    }
+  };
+
+  return (
+    <div>
+      <Navbar />
+      <div className={styles.container}>
+
+        {loading && <p className={styles.loading}>Yükleniyor...</p>}
+        {error && <p className={styles.error}>{error}</p>}
+
+        <div className={styles.productList}>
+          {products.length === 0 && !loading && !error && (
+            <p className={styles.noProducts}>Henüz ürün eklenmemiş.</p>
+          )}
+
+          {products.map((product) => (
+            <div key={product.id} className={styles.productCard}>
+              {/* Eğer adminse sağ üst köşeye Edit iconu ekle */}
+              {isAdmin && (
+                <EditIcon
+                  className={styles.editIcon}
+                  onClick={() => handleEditRedirect(product.id)}
+                />
+              )}
+
+              <img
+                src={product.imageUrl}
+                alt={product.name}
+                className={styles.productImage}
+              />
+              <h2 className={styles.productName}>{product.name}</h2>
+              <p className={styles.productPrice}>{product.price} ₺</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
