@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import AxiosInstance from "../../axios/AxiosInstance";
 import DragDropUploader from "./DragDropUploader";
-import Navbar from "../../components/Navbar/Navbar";
+
 import styles from "./ProductUploadPage.module.css";
 
 const ProductUploadPage = () => {
@@ -134,7 +134,7 @@ const ProductUploadPage = () => {
 
   return (
     <div className={styles.container}>
-      <Navbar />
+    
       <div className={styles.uploadBox}>
         <h2 className={styles.title}>{isEditing ? "Ürün Güncelle" : "Ürün Yükle"}</h2>
         {message && <p className={styles.message}>{message}</p>}

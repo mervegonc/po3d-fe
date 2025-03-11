@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import ColorPalette from "./ColorPalette";
-import Navbar from "../../components/Navbar/Navbar"; 
+
 
 
 const ModelViewer = ({ modelPath }) => {
@@ -16,7 +16,7 @@ const ModelViewer = ({ modelPath }) => {
 
   return (
     <div>
-       <Navbar /> 
+
       <Canvas camera={{ position: [0, 0, 5] }}>
         <ambientLight intensity={1} />
         <directionalLight position={[0, 10, 10]} intensity={1.5} />

@@ -1,12 +1,12 @@
 import React from "react";
 import styles from "./AboutPage.module.css";
 import aboutImage from "../../assets/images/about-image.jpg"; 
-import Navbar from "../../components/Navbar/Navbar";
+
 
 const AboutPage = () => {
   return (
     <div className={styles.AboutC}>
-      <Navbar />
+
       <div className={styles.container}>
         {/* Arkaplan resmi */}
         <div className={styles.imageContainer}>

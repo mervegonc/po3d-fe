@@ -4,7 +4,6 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { Button, Grid, Box, TextField } from "@mui/material";
-import Navbar from "../../components/Navbar/Navbar";
 import styles from "./ModelSelectionPage.module.css";
 
 const ModelViewer = ({ modelPath, position, color, texture }) => {
@@ -98,7 +97,7 @@ function ModelSelectionPage() {
   };
   return (
 <div>
-<Navbar />
+
 
 <div className={styles.container}>
 

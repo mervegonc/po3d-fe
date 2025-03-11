@@ -1,12 +1,12 @@
 import React from "react";
-import Navbar from "../../components/Navbar/Navbar";
+
 import styles from "./HomePage.module.css";
 import HeroSection from "./HeroSection";
 
 const HomePage = () => {
   return (
     <div className={styles.container}>
-      <Navbar />
+    
       <HeroSection />
 
       {/* İçerik Bölümü */}

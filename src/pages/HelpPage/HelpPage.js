@@ -1,11 +1,10 @@
 import React from "react";
 import styles from "./HelpPage.module.css";
-import Navbar from "../../components/Navbar/Navbar";
 
 const HelpPage = () => {
   return (
     <div className={styles.helpC}>
-         <Navbar />
+       
     <div className={styles.container}>
       <h1 className={styles.title}>Yardım Merkezi</h1>
       <p className={styles.description}>Aşağıda sıkça sorulan soruların cevaplarını bulabilirsiniz.</p>

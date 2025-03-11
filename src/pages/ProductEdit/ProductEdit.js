@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import AxiosInstance from "../../axios/AxiosInstance";
 import styles from "./ProductEdit.module.css";
 import { TextField, Button } from "@mui/material";
-import Navbar from "../../components/Navbar/Navbar";
 
 const ProductEdit = () => {
   const { productId } = useParams();
@@ -67,7 +66,7 @@ const ProductEdit = () => {
 
   return (
     <div>
-      <Navbar />
+    
       <div className={styles.container}>
         <div className={styles.productCard}>
           <div className={styles.left}>

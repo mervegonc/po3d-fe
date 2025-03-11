@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AxiosInstance from "../../axios/AxiosInstance";
 import styles from "./ProductPage.module.css";
-import Navbar from "../../components/Navbar/Navbar";
 import EditIcon from "@mui/icons-material/Edit";
 
 const ProductPage = () => {
@@ -52,7 +51,7 @@ const ProductPage = () => {
 
   return (
     <div>
-      <Navbar />
+    
       <div className={styles.container}>
 
         {loading && <p className={styles.loading}>Yükleniyor...</p>}

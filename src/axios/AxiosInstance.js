@@ -1,22 +1,19 @@
 import axios from "axios";
 
-// Axios Instance oluştur
 const AxiosInstance = axios.create({
-  baseURL: "http://localhost:8080/api", // API URL
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: "http://localhost:8080/api",
 });
 
-// Token'i yalnızca signup ve signin dışında ekleyelim
+// Request interceptor ekleyerek sadece belirli isteklerde Authorization header ekleyelim
 AxiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
+
+  // Eğer istek signin veya signup değilse, Authorization header ekleyelim
   if (token && !config.url.includes("/auth/signin") && !config.url.includes("/auth/signup")) {
-    config.headers["Authorization"] = `Bearer ${token}`;
+    config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
-}, (error) => {
-  return Promise.reject(error);
 });
 
 export default AxiosInstance;

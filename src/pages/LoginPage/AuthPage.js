@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import AxiosInstance from "../../axios/AxiosInstance"; // Güncellenmiş AxiosInstance
+import axios from "axios"; // AxiosInstance yerine axios kullanıyoruz
 import { TextField, Button, Typography, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import styles from "./AuthPage.module.css";
-import Navbar from "../../components/Navbar/Navbar";
 
 const AuthPage = () => {
   const [page, setPage] = useState("signin"); // "signin" veya "signup"
@@ -30,25 +29,22 @@ const AuthPage = () => {
 
     try {
       if (page === "signin") {
-        // Kullanıcı giriş işlemi
-        const response = await AxiosInstance.post("/auth/signin", {
-          usernameOrEmail: formData.email, // Giriş için email veya username kullanılabilir
+        // Kullanıcı giriş işlemi için doğrudan axios kullanıyoruz
+        const response = await axios.post("http://localhost:8080/api/auth/signin", {
+          usernameOrEmail: formData.email,
           password: formData.password,
         });
 
         if (response.status === 200 && response.data.token) {
-          // Token ve userId'yi localStorage'a kaydet
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("userId", response.data.userId);
-
-          // Kullanıcıyı profiline yönlendir
           navigate(`/profile/${response.data.userId}`);
         } else {
           setError("Yanlış kullanıcı adı veya şifre.");
         }
       } else {
-        // Kullanıcı kayıt işlemi
-        const response = await AxiosInstance.post("/auth/signup", {
+        // Kullanıcı kayıt işlemi için doğrudan axios kullanıyoruz
+        const response = await axios.post("http://localhost:8080/api/auth/signup", {
           username: formData.username,
           email: formData.email,
           password: formData.password,
@@ -56,7 +52,7 @@ const AuthPage = () => {
 
         if (response.status === 201) {
           setSuccessMessage("Kayıt başarılı! Şimdi giriş yapabilirsiniz.");
-          setPage("signin"); // Kayıt sonrası giriş sayfasına yönlendir
+          setPage("signin");
         }
       }
     } catch (err) {
@@ -72,7 +68,7 @@ const AuthPage = () => {
 
   return (
     <div>
-      <Navbar />
+    
       <div className={styles.authContainer}>
         <Paper elevation={5} className={styles.authPaper}>
           <Typography className={styles.authTitle}>
@@ -123,7 +119,7 @@ const AuthPage = () => {
 
             <div className={styles.authSwitchContainer}>
               <Typography>
-                {page === "signup" ? "Zaten bir hesabın var mı?" : "Hesabın yok mu?"}{" "}
+                {page === "signup" ? "Zaten bir hesabın var mı?" : "Hesabın yok mu?"} {" "}
                 <Button
                   className={styles.authSwitchButton}
                   onClick={() => setPage(page === "signup" ? "signin" : "signup")}

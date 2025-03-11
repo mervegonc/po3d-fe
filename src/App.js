@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import "./index.css";  // index.css dosyanın dahil olduğundan emin ol
-
+import Navbar from "./components/Navbar/Navbar";  // Navbar import edildi
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ModelSelectionPage from './pages/ModelSelectionPage/ModelSelectionPage';
 import AuthPage from './pages/LoginPage/AuthPage';
@@ -26,6 +26,7 @@ function App() {
 
   return (
     <Router>
+            <Navbar /> {}
       <Routes>
       <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<AuthPage />} />
